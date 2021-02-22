@@ -8,6 +8,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +18,8 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 import com.jsnicholson.medialist.BuildConfig;
 import com.jsnicholson.medialist.R;
+import com.jsnicholson.medialist.database.DatabaseConstants;
+import com.jsnicholson.medialist.database.TMDBConstants;
 
 public class ActivityMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,8 +45,6 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new FragmentList()).commit();
-
-        String key = BuildConfig.API_KEY_TMDB;
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -80,5 +82,16 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         inflater.inflate(R.menu.menu_main, menu);
 
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK) {
+            Intent intentSingleMedia = new Intent(ActivityMain.this, ActivitySingleMedia.class);
+            intentSingleMedia.putExtras(data);
+            startActivity(intentSingleMedia);
+        }
     }
 }

@@ -24,4 +24,22 @@ public class MediaDetails {
     @NonNull
     @ColumnInfo(name = DatabaseConstants.MEDIA_DETAIL_POSTER)
     public String poster;
+
+    @ColumnInfo(name = DatabaseConstants.MEDIA_DETAIL_EPISODE_TOTAL)
+    public int episodeTotal;
+
+    @ColumnInfo(name = DatabaseConstants.MEDIA_DETAIL_RUNTIME)
+    public int runtime;
+
+    public MediaDetails() {}
+
+    public MediaDetails(int type, String title, int released, String overview, String poster, int episodeTotal, int runtime) {
+        this.type = type;
+        this.title = title;
+        this.released = released;
+        this.overview = overview;
+        this.poster = poster;
+        this.episodeTotal = episodeTotal;
+        this.runtime = runtime;
+    }
 }

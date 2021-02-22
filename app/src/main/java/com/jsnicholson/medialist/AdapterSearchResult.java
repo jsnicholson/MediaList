@@ -2,8 +2,6 @@ package com.jsnicholson.medialist;
 
 import android.content.Context;
 import android.os.Build;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.jsnicholson.medialist.database.DatabaseConstants;
-import com.jsnicholson.medialist.database.MediaEntry;
 import com.jsnicholson.medialist.database.MediaSearchResult;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 // a fairly standard recycler view adapter
@@ -70,6 +64,11 @@ public class AdapterSearchResult extends RecyclerView.Adapter<AdapterSearchResul
         }
     }
 
+    public void ClearData() {
+        data.clear();
+        notifyDataSetChanged();
+    }
+
     // view holder, limited number of these are bound to data as it passes
     public class ViewHolderSearchResult extends RecyclerView.ViewHolder implements View.OnClickListener {
         ClickListenerSearchResult clickListener;
@@ -100,11 +99,7 @@ public class AdapterSearchResult extends RecyclerView.Adapter<AdapterSearchResul
 
                 String str = String.format("%s (%s)", result.title, (result.released != 0) ? result.released : "Unreleased");
 
-                String strMediaType = "";
-                if(result.type.equals(DatabaseConstants.TMDB_RESPONSE_VALUE_MOVIE))
-                    strMediaType = m_context.getResources().getString(R.string.media_type_movie);
-                else if (result.type.equals(DatabaseConstants.TMDB_RESPONSE_VALUE_TV))
-                    strMediaType = m_context.getResources().getString(R.string.media_type_tv);
+                String strMediaType = DatabaseConstants.MAP_MEDIA_TYPE_TO_STRING.get(result.type);
 
                 textTitle.setText(str);
 

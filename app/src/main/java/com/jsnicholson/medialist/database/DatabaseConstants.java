@@ -1,5 +1,11 @@
 package com.jsnicholson.medialist.database;
 
+import com.google.common.collect.ImmutableMap;
+import com.jsnicholson.medialist.R;
+import com.jsnicholson.medialist.StringResources;
+
+import java.util.Map;
+
 public class DatabaseConstants {
 
     public static final String TABLE_MEDIA_ENTRY = "media_entry";
@@ -14,38 +20,35 @@ public class DatabaseConstants {
     public static final String MEDIA_DETAIL_RELEASED = "media_detail_released";
     public static final String MEDIA_DETAIL_OVERVIEW = "media_detail_overview";
     public static final String MEDIA_DETAIL_POSTER = "media_detail_poster";
+    public static final String MEDIA_DETAIL_EPISODE_TOTAL = "media_details_episode_total";
+    public static final String MEDIA_DETAIL_RUNTIME = "media_detail_runtime";
 
-    public static final int MEDIA_TYPE_FILM = 0;
-    public static final int MEDIA_TYPE_TV = 1;
-    public static final int MEDIA_TYPE_BOOK = 2;
-    public static final int MEDIA_TYPE_ANIME = 3;
+    public static final int MEDIA_TYPE_MOVIE = 1;
+    public static final int MEDIA_TYPE_TV = 2;
+    public static final int MEDIA_TYPE_BOOK = 3;
+    public static final int MEDIA_TYPE_ANIME = 4;
 
-    public static final int MEDIA_STATUS_ACTIVE = 0;
-    public static final int MEDIA_STATUS_COMPLETED = 1;
-    public static final int MEDIA_STATUS_PLANNED = 2;
-    public static final int MEDIA_STATUS_ONHOLD = 3;
-    public static final int MEDIA_STATUS_DROPPED = 4;
+    public static final Map<Integer, String> MAP_MEDIA_TYPE_TO_STRING = ImmutableMap.of(
+            MEDIA_TYPE_MOVIE, StringResources.Get(R.string.media_type_movie),
+            MEDIA_TYPE_TV, StringResources.Get(R.string.media_type_tv),
+            MEDIA_TYPE_BOOK, StringResources.Get(R.string.media_type_book),
+            MEDIA_TYPE_ANIME, StringResources.Get(R.string.media_type_anime));
 
-    public static final String TMDB_ENDPOINT_SEARCH = "https://api.themoviedb.org/3/search/multi?api_key={api_key}&language=en-US&query={query}&page=1&include_adult=false";
-    public static final String TMDB_ENDPOINT_PARAM_API_KEY = "api_key";
-    public static final String TMDB_ENDPOINT_PARAM_QUERY = "query";
+    public static final int MEDIA_STATUS_ACTIVE = 1;
+    public static final int MEDIA_STATUS_COMPLETED = 2;
+    public static final int MEDIA_STATUS_PLANNED = 3;
+    public static final int MEDIA_STATUS_ONHOLD = 4;
+    public static final int MEDIA_STATUS_DROPPED = 5;
 
-    public static final String TMDB_RESPONSE_KEY_RESULTS = "results";
-    public static final String TMDB_RESPONSE_KEY_ID = "id";
-    public static final String TMDB_RESPONSE_KEY_TITLE = "title";
-    public static final String TMDB_RESPONSE_KEY_NAME = "name";
-    public static final String TMDB_RESPONSE_KEY_MEDIATYPE = "media_type";
-    public static final String TMDB_RESPONSE_KEY_RELEASEDATE = "release_date";
-    public static final String TMDB_RESPONSE_KEY_FIRSTAIRDATE = "first_air_date";
-    public static final String TMDB_RESPONSE_KEY_POPULARITY = "popularity";
-    public static final String TMDB_RESPONSE_KEY_GENRE_IDS = "genre_ids";
-    public static final String TMDB_RESPONSE_KEY_ORIGINAL_LANGUAGE = "original_language";
-
-    public static final String TMDB_RESPONSE_VALUE_MOVIE = "movie";
-    public static final String TMDB_RESPONSE_VALUE_TV = "tv";
-    public static final String TMDB_RESPONSE_VALUE_JAPANESE = "ja";
-    public static final int TMDB_RESPONSE_VALUE_ANIMATION = 16;
+    public static final Map<Integer, String> MAP_MEDIA_STATUS_TO_STRING = ImmutableMap.of(
+            MEDIA_STATUS_ACTIVE, StringResources.Get(R.string.status_active),
+            MEDIA_STATUS_COMPLETED, StringResources.Get(R.string.status_completed),
+            MEDIA_STATUS_PLANNED, StringResources.Get(R.string.status_planned),
+            MEDIA_STATUS_ONHOLD, StringResources.Get(R.string.status_onhold),
+            MEDIA_STATUS_DROPPED, StringResources.Get(R.string.status_dropped));
 
     public static final int VALUE_NOTFOUND = 0;
     public static final int VALUE_UNRELEASED = 1;
+
+    public static final String EXTRA_TYPE = "extra_type";
 }

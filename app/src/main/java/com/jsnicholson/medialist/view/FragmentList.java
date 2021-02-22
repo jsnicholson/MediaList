@@ -34,7 +34,7 @@ public class FragmentList extends Fragment {
 
     private View.OnClickListener listenerNewMedia = v -> {
         Intent intentSearch = new Intent(getActivity(), ActivitySearch.class);
-        startActivity(intentSearch);
+        startActivityForResult(intentSearch, 1);
     };
 
 }

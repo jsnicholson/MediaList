@@ -2,14 +2,14 @@ package com.jsnicholson.medialist.database;
 
 public class MediaSearchResult implements Comparable<MediaSearchResult> {
 
-    public String type;
+    public int type;
     public long idExternal;
     public String title;
     public int released;
     public float popularity;
     public boolean isAnime;
 
-    public MediaSearchResult(String type, int idExternal, String title, int released, int popularity, boolean isAnime) {
+    public MediaSearchResult(int type, int idExternal, String title, int released, int popularity, boolean isAnime) {
         this.type = type;
         this.idExternal = idExternal;
         this.title = title;

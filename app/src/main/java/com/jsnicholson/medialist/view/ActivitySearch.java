@@ -1,12 +1,15 @@
 package com.jsnicholson.medialist.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -18,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jsnicholson.medialist.AdapterSearchResult;
 import com.jsnicholson.medialist.R;
+import com.jsnicholson.medialist.database.DatabaseConstants;
+import com.jsnicholson.medialist.database.TMDBConstants;
 import com.jsnicholson.medialist.viewmodel.ViewModelSearch;
 import com.jsnicholson.medialist.database.MediaSearchResult;
 
@@ -30,6 +35,7 @@ public class ActivitySearch extends AppCompatActivity {
     private ViewModelSearch m_viewModel;
     private AdapterSearchResult m_adapter;
     private TextView m_textNoResults;
+    private ProgressBar m_Progress;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -50,6 +56,7 @@ public class ActivitySearch extends AppCompatActivity {
         editSearch.addTextChangedListener(textSearchWatcher);
 
         m_textNoResults = findViewById(R.id.textNoResults);
+        m_Progress = findViewById(R.id.progressSearching);
 
         RecyclerView listExercise = findViewById(R.id.listSearchResults);
         m_adapter = new AdapterSearchResult(this, this::OnMediaSearchResultClicked);
@@ -57,6 +64,7 @@ public class ActivitySearch extends AppCompatActivity {
         listExercise.setAdapter(m_adapter);
 
         m_viewModel.m_listMediaSearchResult.observe(this, mediaSearchResult -> {
+            m_Progress.setVisibility(View.GONE);
             m_adapter.SetData(mediaSearchResult);
         });
 
@@ -79,16 +87,20 @@ public class ActivitySearch extends AppCompatActivity {
     }
 
     public void OnMediaSearchResultClicked(MediaSearchResult exercise) {
+        Intent intentReturn = new Intent();
+        intentReturn.putExtra(TMDBConstants.EXTRA_TMDB_ID, exercise.idExternal);
+        intentReturn.putExtra(DatabaseConstants.EXTRA_TYPE, exercise.type);
+        setResult(Activity.RESULT_OK, intentReturn);
         finish();
-        Intent intentSingleMedia = new Intent(getApplicationContext(), ActivitySingleMedia.class);
-        startActivity(intentSingleMedia);
     }
 
     TextWatcher textSearchWatcher = new TextWatcher() {
         private Timer timer = new Timer();
-        private final long DELAY = 1000; // Milliseconds
+        private final long DELAY = 500; // Milliseconds
 
         @Override public void afterTextChanged(Editable s) {
+            m_adapter.ClearData();
+            m_Progress.setVisibility(View.VISIBLE);
             timer.cancel();
             timer = new Timer();
             timer.schedule(
